@@ -11,6 +11,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiController extends FOSRestController
 {
+    protected $client;
+
+    protected function setUp()
+    {
+//        $this->client = new GuzzleHttp
+    }
+
     /**
      * @Rest\Get("/first")
      * @param Request $request

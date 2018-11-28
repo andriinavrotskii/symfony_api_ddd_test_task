@@ -17,7 +17,7 @@ class ApiControllerTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $result = $controller->firstAction($request);
-        
+
         $this->assertArrayHasKey('message', $result->getData());
         $this->assertSame([
             'message' => 'hello get'
