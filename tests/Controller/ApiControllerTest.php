@@ -20,6 +20,9 @@ class ApiControllerTest extends TestCase
 
         var_dump($result->getData());
 
-        $this->assertTrue(true);
+        $this->assertArrayHasKey('message', $result->getData());
+        $this->assertSame([
+            'message' => 'hello get'
+        ], $result->getData());
     }
 }
