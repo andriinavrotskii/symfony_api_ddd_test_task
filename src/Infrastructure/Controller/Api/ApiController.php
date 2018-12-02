@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller\Api;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 

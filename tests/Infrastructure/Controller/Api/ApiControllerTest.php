@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Infrastructure\Controller\Api\Controller;
 
-use App\Controller\ApiController;
+use App\Infrastructure\Controller\Api\ApiController;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
