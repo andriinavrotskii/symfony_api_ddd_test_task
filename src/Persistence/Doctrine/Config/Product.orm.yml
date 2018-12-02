@@ -1,0 +1,36 @@
+App\Domain\Model\Product:
+    type: entity
+    table: products
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        barcode:
+            type: string
+            column: barcode
+            length: 128
+        name:
+            type: string
+            column: name
+            length: 255
+        cost:
+            type: integer
+            column: cost
+            length: 12
+            nullable: false
+            options:
+                unsigned: true
+        vat:
+            type: integer
+            column: vat
+            length: 1
+            nullable: false
+            options:
+                unsigned: true
+
+    uniqueConstraints:
+        version_idx:
+            columns: [ id, barcode ]

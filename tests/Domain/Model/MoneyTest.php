@@ -9,13 +9,23 @@ class MoneyTest extends TestCase
 {
     /**
      * @test
+     * @throws \App\Domain\Exceptions\MoneyException
      */
     public function positiveTest()
     {
-        $this->assertSame('0.00', (new Money(0))->getAmount());
-        $this->assertSame('0.09', (new Money(9))->getAmount());
-        $this->assertSame('0.99', (new Money(99))->getAmount());
-        $this->assertSame('9.99', (new Money(999))->getAmount());
-        $this->assertSame('9999.99', (new Money(999999))->getAmount());
+        $this->assertSame('0.00', (string) new Money(0));
+        $this->assertSame('0.09', (string) new Money(9));
+        $this->assertSame('0.99', (string) new Money(99));
+        $this->assertSame('9.99', (string) new Money(999));
+        $this->assertSame('9999.99', (string) new Money(999999));
+
+        $this->assertSame('0.00', (string) new Money('0'));
+        $this->assertSame('9.00', (string) new Money('9'));
+        $this->assertSame('9.00', (string) new Money('9.'));
+        $this->assertSame('0.90', (string) new Money('0.9'));
+        $this->assertSame('0.09', (string) new Money('0.09'));
+        $this->assertSame('0.99', (string) new Money('0.99'));
+        $this->assertSame('9.99', (string) new Money('9.99'));
+        $this->assertSame('9999.99', (string) new Money('9999.99'));
     }
 }

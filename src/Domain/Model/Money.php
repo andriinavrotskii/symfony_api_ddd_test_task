@@ -2,22 +2,29 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Exceptions\MoneyException;
+
 class Money
 {
     const PRECISION = 2;
 
     const PERIOD_DELIMITER = '.';
 
-    /** @var string */
-    private $amount;
+    /** @var int */
+    private $value;
 
     /**
      * Money constructor.
-     * @param int $value
+     * @param int|string $value
+     * @throws MoneyException
      */
-    public function __construct(int $value)
+    public function __construct($value)
     {
-        $this->fromInteger($value);
+        if (is_string($value)) {
+            $this->fromString($value);
+        } else {
+            $this->fromInteger($value);
+        }
     }
 
     /**
@@ -25,21 +32,56 @@ class Money
      */
     public function fromInteger(int $value)
     {
-        $value = (string) $value;
+        $this->value = $value;
+    }
+
+    /**
+     * @param string $value
+     * @throws MoneyException
+     */
+    public function fromString(string $value)
+    {
+        switch (strlen(strstr($value, self::PERIOD_DELIMITER))) {
+            case false:
+            case 0:
+                $value = ($value . self::PERIOD_DELIMITER . '00');
+                break;
+            case 1:
+                $value = ($value . '00');
+                break;
+            case 2:
+                $value = ($value . '0');
+                break;
+            case 3:
+                $value = $value;
+                break;
+            default:
+                throw new MoneyException('Wrong Money string');
+        }
+
+        $this->value = (int) str_replace(self::PERIOD_DELIMITER, '', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $value = (string) $this->value;
 
         if (strlen($value) < self::PRECISION+1) {
             $value = str_repeat('0', (self::PRECISION - strlen($value) + 1))
                 . $value;
         }
 
-        $this->amount = substr_replace($value, self::PERIOD_DELIMITER, -self::PRECISION, 0);
-    }
-
-    /**
-     * @return string
-     */
-    public function getAmount()
-    {
-        return $this->amount;
+        return substr_replace($value, self::PERIOD_DELIMITER, -self::PRECISION, 0);
     }
 }
