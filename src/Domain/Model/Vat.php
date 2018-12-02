@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Exceptions\VatTypeException;
+use App\Domain\Exceptions\VatException;
 
 class Vat
 {

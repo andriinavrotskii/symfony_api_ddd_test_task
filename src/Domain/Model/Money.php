@@ -2,11 +2,11 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Exceptions\MoneyException;
-
 class Money
 {
-    const PERCISION = 2;
+    const PRECISION = 2;
+
+    const PERIOD_DELIMITER = '.';
 
     /** @var string */
     private $amount;
@@ -14,7 +14,6 @@ class Money
     /**
      * Money constructor.
      * @param int $value
-     * @throws MoneyException
      */
     public function __construct(int $value)
     {
@@ -23,17 +22,17 @@ class Money
 
     /**
      * @param int $value
-     * @throws MoneyException
      */
     public function fromInteger(int $value)
     {
         $value = (string) $value;
 
-        if (strlen($value) < self::PERCISION) {
-            throw new MoneyException("Can't create Money from integer, integer too small");
+        if (strlen($value) < self::PRECISION+1) {
+            $value = str_repeat('0', (self::PRECISION - strlen($value) + 1))
+                . $value;
         }
 
-        $this->amount = substr_replace($value, '.', -self::PERCISION, 0);
+        $this->amount = substr_replace($value, self::PERIOD_DELIMITER, -self::PRECISION, 0);
     }
 
     /**
