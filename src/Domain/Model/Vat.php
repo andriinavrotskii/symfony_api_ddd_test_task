@@ -23,9 +23,20 @@ class Vat
         $this->setValue($vat);
     }
 
+    /**
+     * @return int
+     */
     public function getValue(): int
     {
         return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->value . '%';
     }
 
     /**

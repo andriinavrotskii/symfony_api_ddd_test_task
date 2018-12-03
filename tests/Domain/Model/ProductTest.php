@@ -5,7 +5,6 @@ namespace App\Tests\Domain\Model;
 use App\Domain\Model\Money;
 use App\Domain\Model\Product;
 use App\Domain\Model\Vat;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProductTest extends KernelTestCase
@@ -63,8 +62,17 @@ class ProductTest extends KernelTestCase
         $product->setName($testData['name']);
         $product->setCost(new Money($testData['cost']));
         $product->setVat(new Vat($testData['vat']));
-var_dump($product);
+
         $em->persist($product);
         $em->flush();
+
+        $this->assertTrue(is_integer($product->getId()));
+
+        $this->assertEquals($testData, [
+            'barcode' => $product->getBarcode(),
+            'name' => $product->getName(),
+            'cost' => $product->getCost(),
+            'vat' => $product->getVat()->getValue()
+        ]);
     }
 }

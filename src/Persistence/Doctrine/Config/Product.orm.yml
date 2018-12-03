@@ -24,7 +24,7 @@ App\Domain\Model\Product:
             options:
                 unsigned: true
         vat:
-            type: integer
+            type: vat_type
             column: vat
             length: 1
             nullable: false
