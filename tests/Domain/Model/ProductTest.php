@@ -2,9 +2,9 @@
 
 namespace App\Tests\Domain\Model;
 
-use App\Domain\Model\Money;
 use App\Domain\Model\Product;
-use App\Domain\Model\Vat;
+use App\Domain\ValueObject\Money;
+use App\Domain\ValueObject\Vat;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProductTest extends KernelTestCase
@@ -39,6 +39,11 @@ class ProductTest extends KernelTestCase
 
     /**
      * @test
+     *
+     * @throws \App\Domain\Exceptions\MoneyException
+     * @throws \App\Domain\Exceptions\VatException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function createProductTest()
     {
@@ -51,10 +56,10 @@ class ProductTest extends KernelTestCase
 
 
         $testData = [
-            'barcode' => '1234',
+            'barcode' => (string) rand(1, 10000),
             'name' => 'product',
             'cost' => '9.99',
-            'vat' => 21
+            'vat' => 6
         ];
 
         $product = new Product();

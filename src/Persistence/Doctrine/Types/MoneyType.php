@@ -2,7 +2,7 @@
 
 namespace App\Persistence\Doctrine\Types;
 
-use App\Domain\Model\Money;
+use App\Domain\ValueObject\Money;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 

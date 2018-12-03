@@ -2,7 +2,7 @@
 
 namespace App\Persistence\Doctrine\Types;
 
-use App\Domain\Model\Vat;
+use App\Domain\ValueObject\Vat;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 

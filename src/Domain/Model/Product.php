@@ -2,6 +2,9 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\ValueObject\Money;
+use App\Domain\ValueObject\Vat;
+
 class Product
 {
     /** @var int */

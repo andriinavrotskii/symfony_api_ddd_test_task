@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\Model;
+namespace App\Tests\Domain\ValueObject;
 
-use App\Domain\Model\Vat;
+use App\Domain\ValueObject\Vat;
 use PHPUnit\Framework\TestCase;
 
 class VatTest extends TestCase
