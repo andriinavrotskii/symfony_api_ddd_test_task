@@ -43,6 +43,15 @@ class ReceiptTest extends TestCase
     /**
      * @test
      */
+    public function changeAmountOfLastProduct()
+    {
+        $lastProduct = $this->receipt->getSelectedProducts()->last();
+        var_dump($lastProduct);
+    }
+
+    /**
+     * @test
+     */
     public function finishReceipt()
     {
         $this->receipt->setStatus(Receipt::STATUS_FINISHED);
