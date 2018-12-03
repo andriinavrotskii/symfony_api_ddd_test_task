@@ -10,6 +10,8 @@ class MoneyType extends Type
 {
     const MONEY_TYPE = 'money_type';
 
+    const SQL_DATA_TYPE = 'INT(12)';
+
     /**
      * @param Money $value
      * @param AbstractPlatform $platform
@@ -38,7 +40,7 @@ class MoneyType extends Type
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return self::MONEY_TYPE;
+        return self::SQL_DATA_TYPE;
     }
 
     /**

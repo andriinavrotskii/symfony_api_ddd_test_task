@@ -8,7 +8,9 @@ use Doctrine\DBAL\Types\Type;
 
 class VatType extends Type
 {
-    const VAT_TYPE = 'money_type';
+    const VAT_TYPE = 'vat_type';
+
+    const SQL_DATA_TYPE = 'TINYINT(2)';
 
     /**
      * @param Vat $value
@@ -38,7 +40,7 @@ class VatType extends Type
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return self::VAT_TYPE;
+        return self::SQL_DATA_TYPE;
     }
 
     /**

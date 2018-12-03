@@ -12,6 +12,8 @@ App\Domain\Model\Product:
             type: string
             column: barcode
             length: 128
+            options:
+                unique: true
         name:
             type: string
             column: name
@@ -19,18 +21,12 @@ App\Domain\Model\Product:
         cost:
             type: money_type
             column: cost
-            length: 12
             nullable: false
             options:
                 unsigned: true
         vat:
             type: vat_type
             column: vat
-            length: 1
             nullable: false
             options:
                 unsigned: true
-
-    uniqueConstraints:
-        version_idx:
-            columns: [ id, barcode ]
