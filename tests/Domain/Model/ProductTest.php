@@ -63,8 +63,8 @@ class ProductTest extends KernelTestCase
         $product->setName($testData['name']);
         $product->setCost(new Money($testData['cost']));
         $product->setVat(new Vat($testData['vat']));
-//var_dump($product);
-//        $em->persist($product);
-//        $em->flush();
+var_dump($product);
+        $em->persist($product);
+        $em->flush();
     }
 }

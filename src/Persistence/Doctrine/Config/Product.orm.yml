@@ -17,7 +17,7 @@ App\Domain\Model\Product:
             column: name
             length: 255
         cost:
-            type: integer
+            type: money_type
             column: cost
             length: 12
             nullable: false
