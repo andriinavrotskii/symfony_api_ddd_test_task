@@ -17,6 +17,14 @@ class SelectedProduct
     private $amount;
 
     /**
+     * SelectedProduct constructor.
+     */
+    public function __construct()
+    {
+        $this->amount = 1;
+    }
+
+    /**
      * @return int
      */
     public function getId(): int

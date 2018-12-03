@@ -6,6 +6,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Receipt
 {
+    const STATUS_NEW = 0;
+
+    const STATUS_FINISHED = 1;
+
     /** @var int */
     private $id;
 
@@ -14,6 +18,15 @@ class Receipt
 
     /** @var bool */
     private $status;
+
+    /**
+     * Receipt constructor.
+     */
+    public function __construct()
+    {
+        $this->selectedProducts = new ArrayCollection();
+        $this->status = self::STATUS_NEW;
+    }
 
     /**
      * @return int
@@ -50,7 +63,7 @@ class Receipt
     /**
      * @return bool
      */
-    public function isStatus(): bool
+    public function getStatus(): bool
     {
         return $this->status;
     }
