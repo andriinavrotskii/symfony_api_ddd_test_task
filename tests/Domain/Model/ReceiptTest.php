@@ -53,7 +53,7 @@ class ReceiptTest extends TestCase
         $this->receipt->getSelectedProducts()->last()->setAmount(10);
         $this->assertEquals(10, $this->receipt->getSelectedProducts()->last()->getAmount());
     }
-    
+
     /**
      * @test
      */
