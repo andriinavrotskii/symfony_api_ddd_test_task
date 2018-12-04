@@ -60,6 +60,7 @@ class Receipt
         $this->selectedProducts = $selectedProducts;
     }
 
+
     /**
      * @return bool
      */

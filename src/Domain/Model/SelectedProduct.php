@@ -2,6 +2,8 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\ValueObject\Money;
+
 class SelectedProduct
 {
     /** @var int */
@@ -12,6 +14,9 @@ class SelectedProduct
 
     /** @var Product */
     private $product;
+
+    /** @var Money */
+    private $cost;
 
     /** @var int */
     private $amount;
@@ -70,6 +75,23 @@ class SelectedProduct
     public function setProduct(Product $product): void
     {
         $this->product = $product;
+        $this->cost = $product->getCost();
+    }
+
+    /**
+     * @return Money
+     */
+    public function getCost(): Money
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param Money $cost
+     */
+    public function setCost(Money $cost): void
+    {
+        $this->cost = $cost;
     }
 
     /**
