@@ -60,6 +60,25 @@ class Receipt
         $this->selectedProducts = $selectedProducts;
     }
 
+    /**
+     * @param SelectedProduct $selectedProduct
+     */
+    public function addSelectedProduct(SelectedProduct $selectedProduct): void
+    {
+        $this->selectedProducts->add($selectedProduct);
+    }
+
+    /**
+     * @return SelectedProduct|null
+     */
+    public function getLastSelectedProduct():? SelectedProduct
+    {
+        $element = $this->selectedProducts->last();
+        if ($element) {
+            return $element;
+        }
+        return null;
+    }
 
     /**
      * @return bool

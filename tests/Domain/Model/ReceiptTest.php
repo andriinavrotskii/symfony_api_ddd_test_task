@@ -65,6 +65,16 @@ class ReceiptTest extends TestCase
     /**
      * @test
      */
+    public function getAddSelectedProductToReceipt()
+    {
+        $selectedProduct = $this->createMock(SelectedProduct::class);
+        $this->receipt->addSelectedProduct($selectedProduct);
+        $this->assertSame($selectedProduct, $this->receipt->getLastSelectedProduct());
+    }
+
+    /**
+     * @test
+     */
     public function finishReceipt()
     {
         $this->receipt->setStatus(Receipt::STATUS_FINISHED);
