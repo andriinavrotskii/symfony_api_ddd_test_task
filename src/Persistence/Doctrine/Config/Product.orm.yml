@@ -30,8 +30,14 @@ App\Domain\Model\Product:
             nullable: false
             options:
                 unsigned: true
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: true
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
 
-#    oneToMany:
-#        selectedProducts:
-#            targetEntity: App\Domain\Model\SelectedProduct
-#            mappedBy: product
+    lifecycleCallbacks:
+        prePersist: [updateUpdatedAtNow]

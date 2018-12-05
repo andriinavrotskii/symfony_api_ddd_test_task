@@ -15,6 +15,14 @@ App\Domain\Model\Receipt:
             nullable: false
             options:
                 unsigned: true
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: true
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
 
     oneToMany:
         selectedProducts:
@@ -22,3 +30,6 @@ App\Domain\Model\Receipt:
             mappedBy: receipt
             cascade: ["persist", "remove"]
             orphanRemoval: true
+
+    lifecycleCallbacks:
+        prePersist: [updateUpdatedAtNow]

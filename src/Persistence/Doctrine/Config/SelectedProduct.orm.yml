@@ -21,7 +21,15 @@ App\Domain\Model\SelectedProduct:
             nullable: false
             options:
                 unsigned: true
-
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: true
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
+            
     manyToOne:
         receipt:
             targetEntity: App\Domain\Model\Receipt
@@ -36,3 +44,6 @@ App\Domain\Model\SelectedProduct:
                 name: product_id
                 referencedColumnName: id
                 nullable: false
+
+    lifecycleCallbacks:
+        prePersist: [updateUpdatedAtNow]

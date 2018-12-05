@@ -68,6 +68,7 @@ class ProductTest extends KernelTestCase
         $product->setCost(new Money($testData['cost']));
         $product->setVat(new Vat($testData['vat']));
 
+        $product->setUpdatedAt(new \DateTime('now'));
         $em->persist($product);
         $em->flush();
 
@@ -79,5 +80,8 @@ class ProductTest extends KernelTestCase
             'cost' => $product->getCost(),
             'vat' => $product->getVat()->getValue()
         ]);
+
+        var_dump($product->getUpdatedAt());
+        var_dump($product->getCreatedAt());
     }
 }

@@ -5,14 +5,11 @@ namespace App\Domain\Model;
 use App\Domain\Exceptions\StatusException;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Receipt
+class Receipt extends BaseEntity
 {
     const STATUS_NEW = 0;
 
     const STATUS_FINISHED = 1;
-
-    /** @var int */
-    private $id;
 
     /** @var SelectedProduct[]|ArrayCollection */
     private $selectedProducts;
@@ -25,24 +22,9 @@ class Receipt
      */
     public function __construct()
     {
+        parent::__construct();
         $this->selectedProducts = new ArrayCollection();
         $this->status = self::STATUS_NEW;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     /**
@@ -70,7 +52,7 @@ class Receipt
         if ($this->status == self::STATUS_FINISHED) {
             throw new StatusException("You can't add products to finished receipt");
         }
-        
+
         $this->selectedProducts->add($selectedProduct);
         $selectedProduct->setReceipt($this);
     }

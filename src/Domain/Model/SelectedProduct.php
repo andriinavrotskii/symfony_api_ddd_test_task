@@ -4,11 +4,8 @@ namespace App\Domain\Model;
 
 use App\Domain\ValueObject\Money;
 
-class SelectedProduct
+class SelectedProduct extends BaseEntity
 {
-    /** @var int */
-    private $id;
-
     /** @var Receipt */
     private $receipt;
 
@@ -26,23 +23,8 @@ class SelectedProduct
      */
     public function __construct()
     {
+        parent::__construct();
         $this->amount = 1;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     /**

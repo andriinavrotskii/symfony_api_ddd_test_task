@@ -4,44 +4,21 @@ namespace App\Domain\Model;
 
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
-use Doctrine\Common\Collections\ArrayCollection;
 
-class Product
+class Product extends BaseEntity
 {
-    /** @var int */
-    private $id;
+    /** @var string */
+    protected $barcode;
 
     /** @var string */
-    private $barcode;
-
-    /** @var string */
-    private $name;
+    protected $name;
 
     /** @var Money */
-    private $cost;
+    protected $cost;
 
     /** @var Vat */
-    private $vat;
-
-//    /** @var SelectedProduct[]|ArrayCollection */
-//    private $selectedProducts;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
+    protected $vat;
+    
     /**
      * @return string
      */
@@ -105,12 +82,4 @@ class Product
     {
         $this->vat = $vat;
     }
-//
-//    /**
-//     * @return SelectedProduct[]|ArrayCollection
-//     */
-//    public function getSelectedProducts()
-//    {
-//        return $this->selectedProducts;
-//    }
 }
