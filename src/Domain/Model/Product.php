@@ -4,6 +4,7 @@ namespace App\Domain\Model;
 
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class Product
 {
@@ -21,6 +22,9 @@ class Product
 
     /** @var Vat */
     private $vat;
+
+//    /** @var SelectedProduct[]|ArrayCollection */
+//    private $selectedProducts;
 
     /**
      * @return int
@@ -101,4 +105,12 @@ class Product
     {
         $this->vat = $vat;
     }
+//
+//    /**
+//     * @return SelectedProduct[]|ArrayCollection
+//     */
+//    public function getSelectedProducts()
+//    {
+//        return $this->selectedProducts;
+//    }
 }

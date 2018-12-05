@@ -30,7 +30,6 @@ App\Domain\Model\SelectedProduct:
                 name: receipt_id
                 referencedColumnName: id
                 nullable: false
-                cascade: ['persist']
         product:
             targetEntity: App\Domain\Model\Product
             joinColumn:

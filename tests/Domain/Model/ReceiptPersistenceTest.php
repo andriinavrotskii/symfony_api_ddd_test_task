@@ -70,16 +70,9 @@ class ReceiptPersistenceTest extends KernelTestCase
 
         $receipt = new Receipt();
         $receipt->addSelectedProduct($selectedProduct1);
-        $selectedProduct1->setReceipt($receipt);
-
-        $this->em->persist($receipt);
-        $this->em->persist($selectedProduct1);
-        $this->em->flush();
-
         $receipt->addSelectedProduct($selectedProduct2);
-        $selectedProduct2->setReceipt($receipt);
+
         $this->em->persist($receipt);
-        $this->em->persist($selectedProduct2);
         $this->em->flush();
     }
 

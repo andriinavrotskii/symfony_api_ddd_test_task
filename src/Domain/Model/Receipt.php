@@ -71,6 +71,7 @@ class Receipt
             throw new StatusException("You can't add products to finished receipt");
         }
         $this->selectedProducts->add($selectedProduct);
+        $selectedProduct->setReceipt($this);
     }
 
     /**

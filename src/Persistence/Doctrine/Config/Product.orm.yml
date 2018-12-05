@@ -30,3 +30,8 @@ App\Domain\Model\Product:
             nullable: false
             options:
                 unsigned: true
+
+#    oneToMany:
+#        selectedProducts:
+#            targetEntity: App\Domain\Model\SelectedProduct
+#            mappedBy: product
