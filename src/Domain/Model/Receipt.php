@@ -70,15 +70,21 @@ class Receipt
         if ($this->status == self::STATUS_FINISHED) {
             throw new StatusException("You can't add products to finished receipt");
         }
+        
         $this->selectedProducts->add($selectedProduct);
         $selectedProduct->setReceipt($this);
     }
 
     /**
      * @param SelectedProduct $selectedProduct
+     * @throws StatusException
      */
     public function removeSelectedProduct(SelectedProduct $selectedProduct): void
     {
+        if ($this->status == self::STATUS_FINISHED) {
+            throw new StatusException("You can't remove Product from Receipt on status Finished");
+        }
+
         if (!$this->selectedProducts->contains($selectedProduct)) {
             return;
         }
