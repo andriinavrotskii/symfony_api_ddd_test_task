@@ -74,6 +74,13 @@ class ReceiptPersistenceTest extends KernelTestCase
 
         $this->em->persist($receipt);
         $this->em->flush();
+
+        $this->assertEquals(2, $receipt->getSelectedProducts()->count());
+
+        var_dump($receipt->getId());
+
+        $this->em->remove($receipt);
+        $this->em->flush();
     }
 
 }

@@ -73,7 +73,7 @@ class Receipt
         $this->selectedProducts->add($selectedProduct);
         $selectedProduct->setReceipt($this);
     }
-
+    
     /**
      * @return SelectedProduct|null
      */
