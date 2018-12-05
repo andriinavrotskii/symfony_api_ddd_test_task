@@ -73,7 +73,18 @@ class Receipt
         $this->selectedProducts->add($selectedProduct);
         $selectedProduct->setReceipt($this);
     }
-    
+
+    /**
+     * @param SelectedProduct $selectedProduct
+     */
+    public function removeSelectedProduct(SelectedProduct $selectedProduct): void
+    {
+        if (!$this->selectedProducts->contains($selectedProduct)) {
+            return;
+        }
+        $this->selectedProducts->removeElement($selectedProduct);
+    }
+
     /**
      * @return SelectedProduct|null
      */

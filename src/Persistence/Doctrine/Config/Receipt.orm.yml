@@ -21,3 +21,4 @@ App\Domain\Model\Receipt:
             targetEntity: App\Domain\Model\SelectedProduct
             mappedBy: receipt
             cascade: ["persist", "remove"]
+            orphanRemoval: true
