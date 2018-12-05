@@ -1,0 +1,39 @@
+App\Domain\Model\SelectedProduct:
+    type: entity
+    table: selected_products
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        cost:
+            type: money_type
+            column: cost
+            nullable: false
+            options:
+                unsigned: true
+        amount:
+            type: integer
+            length: 10
+            column: amount
+            nullable: false
+            options:
+                unsigned: true
+
+    manyToOne:
+        receipt:
+            targetEntity: App\Domain\Model\Receipt
+            inversedBy: selectedProducts
+            joinColumn:
+                name: receipt_id
+                referencedColumnName: id
+                nullable: false
+                cascade: ['persist']
+        product:
+            targetEntity: App\Domain\Model\Product
+            joinColumn:
+                name: product_id
+                referencedColumnName: id
+                nullable: false

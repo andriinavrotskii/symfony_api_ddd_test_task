@@ -2,6 +2,7 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Exceptions\StatusException;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Receipt
@@ -16,7 +17,7 @@ class Receipt
     /** @var SelectedProduct[]|ArrayCollection */
     private $selectedProducts;
 
-    /** @var bool */
+    /** @var integer */
     private $status;
 
     /**
@@ -62,9 +63,13 @@ class Receipt
 
     /**
      * @param SelectedProduct $selectedProduct
+     * @throws StatusException
      */
     public function addSelectedProduct(SelectedProduct $selectedProduct): void
     {
+        if ($this->status == self::STATUS_FINISHED) {
+            throw new StatusException("You can't add products to finished receipt");
+        }
         $this->selectedProducts->add($selectedProduct);
     }
 
@@ -81,18 +86,31 @@ class Receipt
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function getStatus(): bool
+    public function getStatus(): int
     {
         return $this->status;
     }
 
     /**
-     * @param bool $status
+     * @param int $status
+     * @throws StatusException
      */
-    public function setStatus(bool $status): void
+    public function setStatus(int $status): void
     {
-        $this->status = $status;
+        switch ($status) {
+            case self::STATUS_NEW:
+            case self::STATUS_FINISHED:
+                $this->status = $status;
+                break;
+            default:
+                throw new StatusException('Wrong Status value');
+        }
+    }
+
+    public function __toString()
+    {
+        return "Receipt {$this->id} status {$this->status}";
     }
 }

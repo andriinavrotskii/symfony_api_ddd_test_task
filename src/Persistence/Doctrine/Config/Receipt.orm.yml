@@ -1,0 +1,22 @@
+App\Domain\Model\Receipt:
+    type: entity
+    table: receipts
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        status:
+            type: integer
+            length: 2
+            column: status
+            nullable: false
+            options:
+                unsigned: true
+
+    oneToMany:
+        selectedProducts:
+            targetEntity: App\Domain\Model\SelectedProduct
+            mappedBy: receipt

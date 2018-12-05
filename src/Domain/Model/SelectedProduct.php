@@ -109,4 +109,9 @@ class SelectedProduct
     {
         $this->amount = $amount;
     }
+
+    public function __toString()
+    {
+        return "Selected Product {$this->id} Product: {$this->product->getId()}";
+    }
 }
