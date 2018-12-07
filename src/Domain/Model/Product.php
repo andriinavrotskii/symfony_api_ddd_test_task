@@ -5,7 +5,7 @@ namespace App\Domain\Model;
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
 
-class Product extends BaseEntity
+class Product extends BaseEntity implements ProductInterface
 {
     /** @var string */
     protected $barcode;

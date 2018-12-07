@@ -4,7 +4,7 @@ namespace App\Domain\Model;
 
 use App\Domain\ValueObject\Money;
 
-class SelectedProduct extends BaseEntity
+class SelectedProduct extends BaseEntity implements SelectedProductInterface
 {
     /** @var Receipt */
     private $receipt;

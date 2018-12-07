@@ -6,6 +6,8 @@ use App\Domain\Model\Receipt;
 
 interface ReceiptRepositoryInterface
 {
+    const ENTITY = Receipt::class;
+
     /**
      * @param $id
      * @return Receipt

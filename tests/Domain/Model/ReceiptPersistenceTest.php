@@ -5,8 +5,10 @@ namespace App\Tests\Domain\Model;
 use App\Domain\Model\Product;
 use App\Domain\Model\Receipt;
 use App\Domain\Model\SelectedProduct;
+use App\Domain\Service\Service;
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
+use App\Persistence\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ReceiptPersistenceTest extends KernelTestCase
@@ -87,6 +89,13 @@ class ReceiptPersistenceTest extends KernelTestCase
         $this->em->flush();
 
         $this->assertEquals(1, $receipt->getSelectedProducts()->count());
+
+
+
+        $repo = new ProductRepository($this->em);
+        $p = $repo->findAll();
+        var_dump(count($p));
     }
+
 
 }

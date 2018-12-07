@@ -5,12 +5,8 @@ namespace App\Domain\Model;
 use App\Domain\Exceptions\StatusException;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Receipt extends BaseEntity
+class Receipt extends BaseEntity implements ReceiptInterface
 {
-    const STATUS_NEW = 0;
-
-    const STATUS_FINISHED = 1;
-
     /** @var SelectedProduct[]|ArrayCollection */
     private $selectedProducts;
 

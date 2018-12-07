@@ -6,6 +6,8 @@ use App\Domain\Model\Product;
 
 interface ProductRepositoryInterface
 {
+    const ENTITY = Product::class;
+
     /**
      * @param $id
      * @return Product
