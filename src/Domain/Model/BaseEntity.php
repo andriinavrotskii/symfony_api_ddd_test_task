@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-class BaseEntity
+abstract class BaseEntity
 {
     /** @var int */
     protected $id;

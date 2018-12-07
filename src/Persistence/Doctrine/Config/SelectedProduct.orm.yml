@@ -29,7 +29,7 @@ App\Domain\Model\SelectedProduct:
             type: datetime
             column: updated_at
             nullable: true
-            
+
     manyToOne:
         receipt:
             targetEntity: App\Domain\Model\Receipt
