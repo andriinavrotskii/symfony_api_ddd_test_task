@@ -6,7 +6,7 @@
  * Time: 0:06
  */
 
-namespace App\Domain\Model;
+namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Money;
 

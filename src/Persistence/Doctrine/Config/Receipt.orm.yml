@@ -1,4 +1,4 @@
-App\Domain\Model\Receipt:
+App\Domain\Entity\Receipt:
     type: entity
     table: receipts
     id:
@@ -26,7 +26,7 @@ App\Domain\Model\Receipt:
 
     oneToMany:
         selectedProducts:
-            targetEntity: App\Domain\Model\SelectedProduct
+            targetEntity: App\Domain\Entity\SelectedProduct
             mappedBy: receipt
             cascade: ["persist", "remove"]
             orphanRemoval: true

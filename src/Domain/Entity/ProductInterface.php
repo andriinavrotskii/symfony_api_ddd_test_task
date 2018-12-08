@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;

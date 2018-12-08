@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Money;
 
-class SelectedProduct extends AbstractModel implements SelectedProductInterface
+class SelectedProduct extends AbstractEntity implements SelectedProductInterface
 {
     /** @var Receipt */
     private $receipt;

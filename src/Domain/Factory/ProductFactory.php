@@ -2,7 +2,8 @@
 
 namespace App\Domain\Factory;
 
-use App\Domain\Model\Product;
+use App\Domain\Entity\Product;
+use App\Domain\Entity\ProductInterface;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
@@ -11,7 +12,7 @@ class ProductFactory
 {
     /**
      * @param CreateProductRequest $request
-     * @return Product
+     * @return ProductInterface
      * @throws \App\Domain\Exceptions\MoneyException
      * @throws \App\Domain\Exceptions\VatException
      */

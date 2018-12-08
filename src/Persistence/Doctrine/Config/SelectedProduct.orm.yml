@@ -1,4 +1,4 @@
-App\Domain\Model\SelectedProduct:
+App\Domain\Entity\SelectedProduct:
     type: entity
     table: selected_products
     id:
@@ -32,14 +32,14 @@ App\Domain\Model\SelectedProduct:
 
     manyToOne:
         receipt:
-            targetEntity: App\Domain\Model\Receipt
+            targetEntity: App\Domain\Entity\Receipt
             inversedBy: selectedProducts
             joinColumn:
                 name: receipt_id
                 referencedColumnName: id
                 nullable: false
         product:
-            targetEntity: App\Domain\Model\Product
+            targetEntity: App\Domain\Entity\Product
             joinColumn:
                 name: product_id
                 referencedColumnName: id

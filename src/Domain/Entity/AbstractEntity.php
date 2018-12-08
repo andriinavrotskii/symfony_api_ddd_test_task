@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Entity;
 
-abstract class AbstractModel
+abstract class AbstractEntity
 {
     /** @var int */
     protected $id;

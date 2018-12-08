@@ -6,7 +6,7 @@
  * Time: 0:05
  */
 
-namespace App\Domain\Model;
+namespace App\Domain\Entity;
 
 use App\Domain\Exceptions\StatusException;
 use Doctrine\Common\Collections\ArrayCollection;

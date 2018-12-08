@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
 
-class Product extends AbstractModel implements ProductInterface
+class Product extends AbstractEntity implements ProductInterface
 {
     /** @var string */
     protected $barcode;

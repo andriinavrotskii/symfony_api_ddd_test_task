@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Entity;
 
 use App\Domain\Exceptions\StatusException;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Receipt extends AbstractModel implements ReceiptInterface
+class Receipt extends AbstractEntity implements ReceiptInterface
 {
     /** @var SelectedProduct[]|ArrayCollection */
     private $selectedProducts;

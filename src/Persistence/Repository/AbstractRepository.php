@@ -4,13 +4,13 @@ namespace App\Persistence\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-abstract class AbstractRepository
+abstract class AbstractRepository implements \App\Domain\Repository\AbstractRepositoryInterface
 {
     /** @var EntityManagerInterface */
     protected $em;
 
     /**
-     * AbstractRepository constructor.
+     * AbstractRepositoryInterface constructor.
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -38,10 +38,10 @@ abstract class AbstractRepository
         return $this->em->getRepository(static::ENTITY)->findOneBy($criteria);
     }
 
-    public function save( $product)
+    public function save($entity)
     {
-        $this->em->persist($product);
+        $this->em->persist($entity);
         $this->em->flush();
-        return $product;
+        return $entity;
     }
 }

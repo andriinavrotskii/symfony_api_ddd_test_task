@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\Model;
+namespace App\Tests\Domain\Entity;
 
-use App\Domain\Model\Product;
+use App\Domain\Entity\Product;
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
