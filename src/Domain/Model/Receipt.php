@@ -5,7 +5,7 @@ namespace App\Domain\Model;
 use App\Domain\Exceptions\StatusException;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Receipt extends BaseEntity implements ReceiptInterface
+class Receipt extends AbstractModel implements ReceiptInterface
 {
     /** @var SelectedProduct[]|ArrayCollection */
     private $selectedProducts;

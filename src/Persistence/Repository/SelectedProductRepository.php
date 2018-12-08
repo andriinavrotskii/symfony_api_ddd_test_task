@@ -4,7 +4,7 @@ namespace App\Persistence\Repository;
 
 use App\Domain\Repository\SelectedProductRepositoryInterface;
 
-class SelectedProductRepository extends BaseRepository implements SelectedProductRepositoryInterface
+class SelectedProductRepository extends AbstractRepository implements SelectedProductRepositoryInterface
 {
 
 }

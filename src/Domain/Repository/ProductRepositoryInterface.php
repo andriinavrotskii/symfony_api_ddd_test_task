@@ -3,6 +3,7 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Model\Product;
+use App\Domain\Model\ProductInterface;
 
 interface ProductRepositoryInterface
 {
@@ -35,4 +36,10 @@ interface ProductRepositoryInterface
      * @return Product|null
      */
     public function findOneBy(array $criteria);
+
+    /**
+     * @param ProductInterface $product
+     * @return mixed
+     */
+    public function save(ProductInterface $product);
 }
