@@ -2,12 +2,14 @@
 
 namespace App\Domain\Service;
 
+use App\Domain\Entity\ProductInterface;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Repository\ProductRepositoryInterface;
 use App\Domain\Repository\ReceiptRepositoryInterface;
 use App\Domain\Repository\SelectedProductRepositoryInterface;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\BarcodeRequest;
+use App\Domain\Request\ProductsListRequest;
 
 class Service
 {
@@ -63,9 +65,27 @@ class Service
         );
     }
 
-    public function getProductByBarcode(BarcodeRequest $request)
+    /**
+     * @param BarcodeRequest $request
+     * @return ProductInterface|null
+     */
+    public function getProductByBarcode(BarcodeRequest $request):? ProductInterface
     {
         return $this->productRepository->findOneBy(['barcode' => $request->getBarcode()]);
+    }
+
+    /**
+     * @param ProductsListRequest $request
+     * @return mixed
+     */
+    public function getProductsList(ProductsListRequest $request)
+    {
+        return $this->productRepository->findBy(
+            [],
+            $request->getOrderBy(),
+            $request->getLimit(),
+            $request->getOffset()
+        );
     }
 
 }

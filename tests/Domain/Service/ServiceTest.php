@@ -5,6 +5,7 @@ namespace App\Tests\Domain\Service;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\CreateProductRequest;
+use App\Domain\Request\ProductsListRequest;
 use App\Domain\Service\Service;
 use App\Persistence\Repository\ProductRepository;
 use App\Persistence\Repository\ReceiptRepository;
@@ -65,5 +66,16 @@ class ServiceTest extends KernelTestCase
             $product,
             $returnedProduct
         );
+    }
+
+    /**
+     * @test
+     */
+    public function getProductsList()
+    {
+        $request = new ProductsListRequest(['id' => 'ASC'], 3, null);
+        $list = $this->service->getProductsList($request);
+
+        $this->assertCount(3, $list);
     }
 }
