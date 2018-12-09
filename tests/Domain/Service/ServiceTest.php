@@ -3,7 +3,9 @@
 namespace App\Tests\Domain\Service;
 
 use App\Domain\Entity\ProductInterface;
+use App\Domain\Entity\ReceiptInterface;
 use App\Domain\Factory\ProductFactory;
+use App\Domain\Factory\ReceiptFactory;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\ProductsListRequest;
@@ -31,7 +33,8 @@ class ServiceTest extends KernelTestCase
             new ProductRepository($em),
             new ReceiptRepository($em),
             new SelectedProductRepository($em),
-            new ProductFactory()
+            new ProductFactory(),
+            new ReceiptFactory()
         );
     }
 
@@ -74,12 +77,25 @@ class ServiceTest extends KernelTestCase
      */
     public function getProductsList()
     {
-        $request = new ProductsListRequest(['barcode' => 'ASC'], 2, null);
+        $request = new ProductsListRequest(['barcode' => 'desc'], 2, null);
         /** @var ProductInterface[] $list */
         $list = $this->service->getProductsList($request);
 
-        $this->assertCount(3, $list);
-        $this->assertGreaterThan($list[0]->getBarcode(), $list[1]->getBarcode());
+        $this->assertCount(2, $list);
+        $this->assertGreaterThan(
+            $list[1]->getBarcode(),
+            $list[0]->getBarcode()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function createReceipt()
+    {
+        $receipt = $this->service->createReceipt();
+        $this->assertInstanceOf(ReceiptInterface::class, $receipt);
+        $this->assertInternalType('integer', $receipt->getId());
     }
 
 

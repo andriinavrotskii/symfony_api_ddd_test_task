@@ -5,9 +5,9 @@ namespace App\Domain\Entity;
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\Vat;
 
-interface ProductInterface
+interface ProductInterface extends AbstractEntityInterface
 {
-    /**
+     /**
      * @return string
      */
     public function getBarcode(): string;

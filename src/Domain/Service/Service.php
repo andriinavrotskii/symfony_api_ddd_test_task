@@ -3,7 +3,9 @@
 namespace App\Domain\Service;
 
 use App\Domain\Entity\ProductInterface;
+use App\Domain\Entity\Receipt;
 use App\Domain\Factory\ProductFactory;
+use App\Domain\Factory\ReceiptFactory;
 use App\Domain\Repository\ProductRepositoryInterface;
 use App\Domain\Repository\ReceiptRepositoryInterface;
 use App\Domain\Repository\SelectedProductRepositoryInterface;
@@ -25,23 +27,24 @@ class Service
     /** @var ProductFactory */
     private $productFactory;
 
+    /** @var ReceiptFactory */
+    private $receiptFactory;
+
     /**
      * Service constructor.
      * @param ProductRepositoryInterface $productRepository
      * @param ReceiptRepositoryInterface $receiptRepository
      * @param SelectedProductRepositoryInterface $selectedProductRepository
      * @param ProductFactory $productFactory
+     * @param ReceiptFactory $receiptFactory
      */
-    public function __construct(
-        ProductRepositoryInterface $productRepository,
-        ReceiptRepositoryInterface $receiptRepository,
-        SelectedProductRepositoryInterface $selectedProductRepository,
-        ProductFactory $productFactory
-    ) {
+    public function __construct(ProductRepositoryInterface $productRepository, ReceiptRepositoryInterface $receiptRepository, SelectedProductRepositoryInterface $selectedProductRepository, ProductFactory $productFactory, ReceiptFactory $receiptFactory)
+    {
         $this->productRepository = $productRepository;
         $this->receiptRepository = $receiptRepository;
         $this->selectedProductRepository = $selectedProductRepository;
         $this->productFactory = $productFactory;
+        $this->receiptFactory = $receiptFactory;
     }
 
     /**
@@ -88,4 +91,14 @@ class Service
         );
     }
 
+    /**
+     * @return \App\Domain\Entity\ReceiptInterface
+     */
+    public function createReceipt()
+    {
+        $receipt = $this->receiptFactory->create();
+        $this->receiptRepository->save($receipt);
+
+        return $receipt;
+    }
 }

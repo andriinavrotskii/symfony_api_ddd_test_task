@@ -11,7 +11,7 @@ namespace App\Domain\Entity;
 use App\Domain\Exceptions\StatusException;
 use Doctrine\Common\Collections\ArrayCollection;
 
-interface ReceiptInterface
+interface ReceiptInterface extends AbstractEntityInterface
 {
     const STATUS_NEW = 0;
 

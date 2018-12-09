@@ -10,7 +10,7 @@ namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Money;
 
-interface SelectedProductInterface
+interface SelectedProductInterface extends AbstractEntityInterface
 {
     /**
      * @return Receipt
