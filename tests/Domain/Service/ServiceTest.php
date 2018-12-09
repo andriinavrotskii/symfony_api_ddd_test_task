@@ -2,6 +2,7 @@
 
 namespace App\Tests\Domain\Service;
 
+use App\Domain\Entity\ProductInterface;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\CreateProductRequest;
@@ -73,9 +74,13 @@ class ServiceTest extends KernelTestCase
      */
     public function getProductsList()
     {
-        $request = new ProductsListRequest(['id' => 'ASC'], 3, null);
+        $request = new ProductsListRequest(['barcode' => 'ASC'], 2, null);
+        /** @var ProductInterface[] $list */
         $list = $this->service->getProductsList($request);
 
         $this->assertCount(3, $list);
+        $this->assertGreaterThan($list[0]->getBarcode(), $list[1]->getBarcode());
     }
+
+
 }
