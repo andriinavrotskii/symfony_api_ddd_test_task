@@ -3,12 +3,16 @@
 namespace App\Domain\Service;
 
 use App\Domain\Entity\ProductInterface;
-use App\Domain\Entity\Receipt;
+use App\Domain\Entity\ReceiptInterface;
+use App\Domain\Entity\SelectedProductInterface;
+use App\Domain\Exceptions\ServiceException;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Factory\ReceiptFactory;
+use App\Domain\Factory\SelectedProductFactory;
 use App\Domain\Repository\ProductRepositoryInterface;
 use App\Domain\Repository\ReceiptRepositoryInterface;
 use App\Domain\Repository\SelectedProductRepositoryInterface;
+use App\Domain\Request\AddProductToReceiptRequest;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\ProductsListRequest;
@@ -30,6 +34,9 @@ class Service
     /** @var ReceiptFactory */
     private $receiptFactory;
 
+    /** @var SelectedProductFactory */
+    private $selectedProductFactory;
+
     /**
      * Service constructor.
      * @param ProductRepositoryInterface $productRepository
@@ -37,14 +44,16 @@ class Service
      * @param SelectedProductRepositoryInterface $selectedProductRepository
      * @param ProductFactory $productFactory
      * @param ReceiptFactory $receiptFactory
+     * @param SelectedProductFactory $selectedProductFactory
      */
-    public function __construct(ProductRepositoryInterface $productRepository, ReceiptRepositoryInterface $receiptRepository, SelectedProductRepositoryInterface $selectedProductRepository, ProductFactory $productFactory, ReceiptFactory $receiptFactory)
+    public function __construct(ProductRepositoryInterface $productRepository, ReceiptRepositoryInterface $receiptRepository, SelectedProductRepositoryInterface $selectedProductRepository, ProductFactory $productFactory, ReceiptFactory $receiptFactory, SelectedProductFactory $selectedProductFactory)
     {
         $this->productRepository = $productRepository;
         $this->receiptRepository = $receiptRepository;
         $this->selectedProductRepository = $selectedProductRepository;
         $this->productFactory = $productFactory;
         $this->receiptFactory = $receiptFactory;
+        $this->selectedProductFactory = $selectedProductFactory;
     }
 
     /**
@@ -100,5 +109,39 @@ class Service
         $this->receiptRepository->save($receipt);
 
         return $receipt;
+    }
+
+    /**
+     * @param AddProductToReceiptRequest $request
+     * @return ReceiptInterface
+     * @throws ServiceException
+     * @throws \App\Domain\Exceptions\StatusException
+     */
+    public function addProductToReceipt(AddProductToReceiptRequest $request)
+    {
+        $receipt = $this->receiptRepository->find($request->getReceiptId());
+        if (!$receipt instanceof ReceiptInterface) {
+            $receipt = $this->receiptFactory->create();
+        }
+        if ($receipt->getStatus() === ReceiptInterface::STATUS_FINISHED) {
+            throw new ServiceException("Can't add Product to Receipt on FINISHED status");
+        }
+
+        $product = $this->productRepository->findOneBy(['barcode' => $request->getBarcode()]);
+        if (!$product instanceof ProductInterface) {
+            throw new ServiceException('Product not found by barcode: ' . $request->getBarcode());
+        }
+
+        $selectedProduct = $this->selectedProductRepository->findOneBy([
+            'product' => $product,
+            'receipt' => $receipt
+        ]);
+        if (!$selectedProduct instanceof SelectedProductInterface) {
+            $selectedProduct = $this->selectedProductFactory->create($receipt, $product, $request->getAmount());
+        }
+
+        $receipt->addSelectedProduct($selectedProduct);
+
+        $this->receiptRepository->save($receipt);
     }
 }

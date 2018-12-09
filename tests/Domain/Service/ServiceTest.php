@@ -6,6 +6,8 @@ use App\Domain\Entity\ProductInterface;
 use App\Domain\Entity\ReceiptInterface;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Factory\ReceiptFactory;
+use App\Domain\Factory\SelectedProductFactory;
+use App\Domain\Request\AddProductToReceiptRequest;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\ProductsListRequest;
@@ -34,7 +36,8 @@ class ServiceTest extends KernelTestCase
             new ReceiptRepository($em),
             new SelectedProductRepository($em),
             new ProductFactory(),
-            new ReceiptFactory()
+            new ReceiptFactory(),
+            new SelectedProductFactory()
         );
     }
 
@@ -98,5 +101,14 @@ class ServiceTest extends KernelTestCase
         $this->assertInternalType('integer', $receipt->getId());
     }
 
+    /**
+     * @test
+     */
+    public function addProductToReceiptPositive()
+    {
+        $request = new AddProductToReceiptRequest(37, '784708', 2);
+
+        $this->service->addProductToReceipt($request);
+    }
 
 }
