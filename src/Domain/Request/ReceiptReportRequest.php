@@ -2,7 +2,7 @@
 
 namespace App\Domain\Request;
 
-class FinishReceiptRequest
+class ReceiptReportRequest
 {
     /** @var integer */
     private $receiptId;

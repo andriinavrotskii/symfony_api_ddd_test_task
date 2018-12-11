@@ -18,6 +18,7 @@ use App\Domain\Request\ReceiptLastProductAmountUpdateRequest;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\ProductsListRequest;
+use App\Domain\Request\ReceiptReportRequest;
 
 class Service
 {
@@ -145,6 +146,7 @@ class Service
     public function receiptLastProductAmountUpdate(ReceiptLastProductAmountUpdateRequest $request)
     {
         $receipt = $this->findReceiptById($request->getReceiptId());
+        $this->checkIsRecetipOpen($receipt);
         /** @var SelectedProductInterface $selectedProduct */
         $selectedProduct = $receipt->getSelectedProducts()->last();
         $selectedProduct->setAmount($request->getAmount());
@@ -155,7 +157,6 @@ class Service
     /**
      * @param int $receiptId
      * @return ReceiptInterface
-     * @throws ServiceException
      */
     private function findReceiptById(int $receiptId): ReceiptInterface
     {
@@ -163,11 +164,18 @@ class Service
         if (!$receipt instanceof ReceiptInterface) {
             $receipt = $this->receiptFactory->create();
         }
-        if ($receipt->getStatus() === ReceiptInterface::STATUS_FINISHED) {
-            throw new ServiceException("Can't add Product to Receipt on FINISHED status");
-        }
-
         return $receipt;
+    }
+
+    /**
+     * @param ReceiptInterface $receipt
+     * @throws ServiceException
+     */
+    private function checkIsRecetipOpen(ReceiptInterface $receipt)
+    {
+        if ($receipt->getStatus() === ReceiptInterface::STATUS_FINISHED) {
+            throw new ServiceException("Receipt on FINISHED status");
+        }
     }
 
     /**
@@ -193,9 +201,15 @@ class Service
     public function finishReceipt(FinishReceiptRequest $request)
     {
         $receipt = $this->findReceiptById($request->getReceiptId());
+        $this->checkIsRecetipOpen($receipt);
         $receipt->setStatus(ReceiptInterface::STATUS_FINISHED);
 
         $this->receiptRepository->save($receipt);
+    }
+
+    public function getReceiptReport(ReceiptReportRequest $request)
+    {
+        return $this->findReceiptById($request->getReceiptId());
     }
 
 }
