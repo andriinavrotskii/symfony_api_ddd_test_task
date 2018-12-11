@@ -49,8 +49,10 @@ class Receipt extends AbstractEntity implements ReceiptInterface
             throw new StatusException("You can't add products to finished receipt");
         }
 
-        $this->selectedProducts->add($selectedProduct);
-        $selectedProduct->setReceipt($this);
+        if (!$this->selectedProducts->contains($selectedProduct)) {
+            $this->selectedProducts->add($selectedProduct);
+            $selectedProduct->setReceipt($this);
+        }
     }
 
     /**

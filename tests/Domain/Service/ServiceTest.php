@@ -106,7 +106,7 @@ class ServiceTest extends KernelTestCase
      */
     public function addProductToReceiptPositive()
     {
-        $request = new AddProductToReceiptRequest(37, '784708', 2);
+        $request = new AddProductToReceiptRequest(37, '123', 2);
 
         $this->service->addProductToReceipt($request);
     }

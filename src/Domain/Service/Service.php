@@ -113,7 +113,6 @@ class Service
 
     /**
      * @param AddProductToReceiptRequest $request
-     * @return ReceiptInterface
      * @throws ServiceException
      * @throws \App\Domain\Exceptions\StatusException
      */
@@ -138,9 +137,10 @@ class Service
         ]);
         if (!$selectedProduct instanceof SelectedProductInterface) {
             $selectedProduct = $this->selectedProductFactory->create($receipt, $product, $request->getAmount());
+            $receipt->addSelectedProduct($selectedProduct);
+        } else {
+            $selectedProduct->setAmount($request->getAmount());
         }
-
-        $receipt->addSelectedProduct($selectedProduct);
 
         $this->receiptRepository->save($receipt);
     }
