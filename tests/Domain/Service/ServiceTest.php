@@ -10,7 +10,9 @@ use App\Domain\Factory\SelectedProductFactory;
 use App\Domain\Request\AddProductToReceiptRequest;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\CreateProductRequest;
+use App\Domain\Request\FinishReceiptRequest;
 use App\Domain\Request\ProductsListRequest;
+use App\Domain\Request\ReceiptLastProductAmountUpdateRequest;
 use App\Domain\Service\Service;
 use App\Persistence\Repository\ProductRepository;
 use App\Persistence\Repository\ReceiptRepository;
@@ -106,9 +108,26 @@ class ServiceTest extends KernelTestCase
      */
     public function addProductToReceiptPositive()
     {
-        $request = new AddProductToReceiptRequest(37, '123', 2);
+        $request = new AddProductToReceiptRequest(37, '123', 1);
 
         $this->service->addProductToReceipt($request);
     }
 
+    /**
+     * @test
+     */
+    public function receiptLastProductAmountUpdate()
+    {
+        $request = new ReceiptLastProductAmountUpdateRequest(46, 33);
+        $this->service->receiptLastProductAmountUpdate($request);
+    }
+
+    /**
+     * @test
+     */
+    public function finishReceipt()
+    {
+        $request = new FinishReceiptRequest(46);
+        $this->service->finishReceipt($request);
+    }
 }

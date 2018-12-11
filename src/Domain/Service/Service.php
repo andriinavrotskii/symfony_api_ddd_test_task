@@ -13,6 +13,8 @@ use App\Domain\Repository\ProductRepositoryInterface;
 use App\Domain\Repository\ReceiptRepositoryInterface;
 use App\Domain\Repository\SelectedProductRepositoryInterface;
 use App\Domain\Request\AddProductToReceiptRequest;
+use App\Domain\Request\FinishReceiptRequest;
+use App\Domain\Request\ReceiptLastProductAmountUpdateRequest;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\ProductsListRequest;
@@ -118,23 +120,14 @@ class Service
      */
     public function addProductToReceipt(AddProductToReceiptRequest $request)
     {
-        $receipt = $this->receiptRepository->find($request->getReceiptId());
-        if (!$receipt instanceof ReceiptInterface) {
-            $receipt = $this->receiptFactory->create();
-        }
-        if ($receipt->getStatus() === ReceiptInterface::STATUS_FINISHED) {
-            throw new ServiceException("Can't add Product to Receipt on FINISHED status");
-        }
-
-        $product = $this->productRepository->findOneBy(['barcode' => $request->getBarcode()]);
-        if (!$product instanceof ProductInterface) {
-            throw new ServiceException('Product not found by barcode: ' . $request->getBarcode());
-        }
+        $receipt = $this->findReceiptById($request->getReceiptId());
+        $product = $this->findProductByBarcode($request->getBarcode());
 
         $selectedProduct = $this->selectedProductRepository->findOneBy([
             'product' => $product,
             'receipt' => $receipt
         ]);
+
         if (!$selectedProduct instanceof SelectedProductInterface) {
             $selectedProduct = $this->selectedProductFactory->create($receipt, $product, $request->getAmount());
             $receipt->addSelectedProduct($selectedProduct);
@@ -144,4 +137,65 @@ class Service
 
         $this->receiptRepository->save($receipt);
     }
+
+    /**
+     * @param ReceiptLastProductAmountUpdateRequest $request
+     * @throws ServiceException
+     */
+    public function receiptLastProductAmountUpdate(ReceiptLastProductAmountUpdateRequest $request)
+    {
+        $receipt = $this->findReceiptById($request->getReceiptId());
+        /** @var SelectedProductInterface $selectedProduct */
+        $selectedProduct = $receipt->getSelectedProducts()->last();
+        $selectedProduct->setAmount($request->getAmount());
+
+        $this->receiptRepository->save($receipt);
+    }
+
+    /**
+     * @param int $receiptId
+     * @return ReceiptInterface
+     * @throws ServiceException
+     */
+    private function findReceiptById(int $receiptId): ReceiptInterface
+    {
+        $receipt = $this->receiptRepository->find($receiptId);
+        if (!$receipt instanceof ReceiptInterface) {
+            $receipt = $this->receiptFactory->create();
+        }
+        if ($receipt->getStatus() === ReceiptInterface::STATUS_FINISHED) {
+            throw new ServiceException("Can't add Product to Receipt on FINISHED status");
+        }
+
+        return $receipt;
+    }
+
+    /**
+     * @param string $barcode
+     * @return ProductInterface
+     * @throws ServiceException
+     */
+    private function findProductByBarcode(string $barcode): ProductInterface
+    {
+        $product = $this->productRepository->findOneBy(['barcode' => $barcode]);
+        if (!$product instanceof ProductInterface) {
+            throw new ServiceException('Product not found by barcode: ' . $barcode);
+        }
+
+        return $product;
+    }
+
+    /**
+     * @param FinishReceiptRequest $request
+     * @throws ServiceException
+     * @throws \App\Domain\Exceptions\StatusException
+     */
+    public function finishReceipt(FinishReceiptRequest $request)
+    {
+        $receipt = $this->findReceiptById($request->getReceiptId());
+        $receipt->setStatus(ReceiptInterface::STATUS_FINISHED);
+
+        $this->receiptRepository->save($receipt);
+    }
+
 }
