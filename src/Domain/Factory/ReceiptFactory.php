@@ -3,12 +3,11 @@
 namespace App\Domain\Factory;
 
 use App\Domain\Entity\Receipt;
-use App\Domain\Entity\ReceiptInterface;
 
 class ReceiptFactory
 {
     /**
-     * @return ReceiptInterface
+     * @return Receipt
      */
     public function create()
     {

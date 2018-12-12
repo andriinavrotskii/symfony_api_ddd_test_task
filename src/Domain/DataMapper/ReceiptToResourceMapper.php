@@ -2,8 +2,8 @@
 
 namespace App\Domain\DataMapper;
 
-use App\Domain\Entity\ReceiptInterface;
-use App\Domain\Entity\SelectedProductInterface;
+use App\Domain\Entity\Receipt;
+use App\Domain\Entity\SelectedProduct;
 use App\Domain\Exceptions\StatusException;
 use App\Domain\Resource\ReceiptResource;
 use App\Domain\Resource\SelectedProductResource;
@@ -33,12 +33,12 @@ class ReceiptToResourceMapper
     }
 
     /**
-     * @param ReceiptInterface $receipt
+     * @param Receipt $receipt
      * @return ReceiptResource
      * @throws StatusException
      * @throws \App\Domain\Exceptions\MoneyException
      */
-    public function map(ReceiptInterface $receipt)
+    public function map(Receipt $receipt)
     {
         $this->prepareSelectedProducts($receipt->getSelectedProducts());
 
@@ -57,7 +57,7 @@ class ReceiptToResourceMapper
      */
     private function prepareSelectedProducts(Collection $selectedProducts)
     {
-        /** @var SelectedProductInterface $selectedProduct */
+        /** @var SelectedProduct $selectedProduct */
         foreach ($selectedProducts as $selectedProduct) {
             $selectedProductTotalCost = $selectedProduct->getCost()->multiplicateOn($selectedProduct->getAmount());
             $this->totalAmount += $selectedProduct->getAmount();
@@ -75,17 +75,17 @@ class ReceiptToResourceMapper
     }
 
     /**
-     * @param ReceiptInterface $receipt
+     * @param Receipt $receipt
      * @return string
      * @throws StatusException
      */
-    public function getTextStatus(ReceiptInterface $receipt)
+    public function getTextStatus(Receipt $receipt)
     {
         switch ($receipt->getStatus()) {
-            case ReceiptInterface::STATUS_FINISHED:
+            case Receipt::STATUS_FINISHED:
                 return 'finished';
                 break;
-            case ReceiptInterface::STATUS_NEW:
+            case Receipt::STATUS_NEW:
                 return 'new';
                 break;
             default:

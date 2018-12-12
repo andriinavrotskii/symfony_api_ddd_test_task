@@ -2,13 +2,13 @@
 
 namespace App\Domain\Factory;
 
-use App\Domain\Entity\ProductInterface;
-use App\Domain\Entity\ReceiptInterface;
+use App\Domain\Entity\Product;
+use App\Domain\Entity\Receipt;
 use App\Domain\Entity\SelectedProduct;
 
 class SelectedProductFactory
 {
-    public function create(ReceiptInterface $receipt, ProductInterface $product, int $amount)
+    public function create(Receipt $receipt, Product $product, int $amount)
     {
         $selectedProduct = new SelectedProduct();
         $selectedProduct->setReceipt($receipt);

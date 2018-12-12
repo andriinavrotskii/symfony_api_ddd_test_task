@@ -3,8 +3,8 @@
 namespace App\Tests\Domain\Service;
 
 use App\Domain\DataMapper\ReceiptToResourceMapper;
-use App\Domain\Entity\ProductInterface;
-use App\Domain\Entity\ReceiptInterface;
+use App\Domain\Entity\Product;
+use App\Domain\Entity\Receipt;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Factory\ReceiptFactory;
 use App\Domain\Factory\SelectedProductFactory;
@@ -89,7 +89,7 @@ class ServiceTest extends KernelTestCase
     public function getProductsList()
     {
         $request = new ProductsListRequest(['barcode' => 'desc'], 2, null);
-        /** @var ProductInterface[] $list */
+        /** @var Product[] $list */
         $list = $this->service->getProductsList($request);
 
         $this->assertCount(2, $list);
@@ -105,7 +105,7 @@ class ServiceTest extends KernelTestCase
     public function createReceipt()
     {
         $receipt = $this->service->createReceipt();
-        $this->assertInstanceOf(ReceiptInterface::class, $receipt);
+        $this->assertInstanceOf(Receipt::class, $receipt);
         $this->assertInternalType('integer', $receipt->getId());
     }
 

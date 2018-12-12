@@ -2,7 +2,7 @@
 
 namespace App\Persistence\Repository;
 
-use App\Domain\Entity\ProductInterface;
+use App\Domain\Entity\Product;
 use App\Domain\Repository\ProductRepositoryInterface;
 
 class ProductRepository extends AbstractRepository implements ProductRepositoryInterface

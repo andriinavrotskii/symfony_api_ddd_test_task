@@ -3,9 +3,9 @@
 namespace App\Domain\Service;
 
 use App\Domain\DataMapper\ReceiptToResourceMapper;
-use App\Domain\Entity\ProductInterface;
-use App\Domain\Entity\ReceiptInterface;
-use App\Domain\Entity\SelectedProductInterface;
+use App\Domain\Entity\Product;
+use App\Domain\Entity\Receipt;
+use App\Domain\Entity\SelectedProduct;
 use App\Domain\Exceptions\ServiceException;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Factory\ReceiptFactory;
@@ -50,8 +50,14 @@ class Service
      * @param ReceiptFactory $receiptFactory
      * @param SelectedProductFactory $selectedProductFactory
      */
-    public function __construct(ProductRepositoryInterface $productRepository, ReceiptRepositoryInterface $receiptRepository, SelectedProductRepositoryInterface $selectedProductRepository, ProductFactory $productFactory, ReceiptFactory $receiptFactory, SelectedProductFactory $selectedProductFactory)
-    {
+    public function __construct(
+        ProductRepositoryInterface $productRepository,
+        ReceiptRepositoryInterface $receiptRepository,
+        SelectedProductRepositoryInterface $selectedProductRepository,
+        ProductFactory $productFactory,
+        ReceiptFactory $receiptFactory,
+        SelectedProductFactory $selectedProductFactory
+    ) {
         $this->productRepository = $productRepository;
         $this->receiptRepository = $receiptRepository;
         $this->selectedProductRepository = $selectedProductRepository;
@@ -83,9 +89,9 @@ class Service
 
     /**
      * @param BarcodeRequest $request
-     * @return ProductInterface|null
+     * @return Product|null
      */
-    public function getProductByBarcode(BarcodeRequest $request):? ProductInterface
+    public function getProductByBarcode(BarcodeRequest $request):? Product
     {
         return $this->productRepository->findOneBy(['barcode' => $request->getBarcode()]);
     }
@@ -105,7 +111,7 @@ class Service
     }
 
     /**
-     * @return \App\Domain\Entity\ReceiptInterface
+     * @return \App\Domain\Entity\Receipt
      */
     public function createReceipt()
     {
@@ -130,7 +136,7 @@ class Service
             'receipt' => $receipt
         ]);
 
-        if (!$selectedProduct instanceof SelectedProductInterface) {
+        if (!$selectedProduct instanceof SelectedProduct) {
             $selectedProduct = $this->selectedProductFactory->create($receipt, $product, $request->getAmount());
             $receipt->addSelectedProduct($selectedProduct);
         } else {
@@ -148,7 +154,7 @@ class Service
     {
         $receipt = $this->findReceiptById($request->getReceiptId());
         $this->checkIsRecetipOpen($receipt);
-        /** @var SelectedProductInterface $selectedProduct */
+        /** @var SelectedProduct $selectedProduct */
         $selectedProduct = $receipt->getSelectedProducts()->last();
         $selectedProduct->setAmount($request->getAmount());
 
@@ -157,37 +163,37 @@ class Service
 
     /**
      * @param int $receiptId
-     * @return ReceiptInterface
+     * @return Receipt
      */
-    private function findReceiptById(int $receiptId): ReceiptInterface
+    private function findReceiptById(int $receiptId): Receipt
     {
         $receipt = $this->receiptRepository->find($receiptId);
-        if (!$receipt instanceof ReceiptInterface) {
+        if (!$receipt instanceof Receipt) {
             $receipt = $this->receiptFactory->create();
         }
         return $receipt;
     }
 
     /**
-     * @param ReceiptInterface $receipt
+     * @param Receipt $receipt
      * @throws ServiceException
      */
-    private function checkIsRecetipOpen(ReceiptInterface $receipt)
+    private function checkIsRecetipOpen(Receipt $receipt)
     {
-        if ($receipt->getStatus() === ReceiptInterface::STATUS_FINISHED) {
+        if ($receipt->getStatus() === Receipt::STATUS_FINISHED) {
             throw new ServiceException("Receipt on FINISHED status");
         }
     }
 
     /**
      * @param string $barcode
-     * @return ProductInterface
+     * @return Product
      * @throws ServiceException
      */
-    private function findProductByBarcode(string $barcode): ProductInterface
+    private function findProductByBarcode(string $barcode): Product
     {
         $product = $this->productRepository->findOneBy(['barcode' => $barcode]);
-        if (!$product instanceof ProductInterface) {
+        if (!$product instanceof Product) {
             throw new ServiceException('Product not found by barcode: ' . $barcode);
         }
 
@@ -203,7 +209,7 @@ class Service
     {
         $receipt = $this->findReceiptById($request->getReceiptId());
         $this->checkIsRecetipOpen($receipt);
-        $receipt->setStatus(ReceiptInterface::STATUS_FINISHED);
+        $receipt->setStatus(Receipt::STATUS_FINISHED);
 
         $this->receiptRepository->save($receipt);
     }

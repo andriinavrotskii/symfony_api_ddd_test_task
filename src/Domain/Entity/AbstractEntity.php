@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entity;
 
-abstract class AbstractEntity implements AbstractEntityInterface
+abstract class AbstractEntity
 {
     /** @var int */
     protected $id;
