@@ -2,6 +2,7 @@
 
 namespace App\Domain\Service;
 
+use App\Domain\DataMapper\ReceiptToResourceMapper;
 use App\Domain\Entity\ProductInterface;
 use App\Domain\Entity\ReceiptInterface;
 use App\Domain\Entity\SelectedProductInterface;
@@ -207,9 +208,18 @@ class Service
         $this->receiptRepository->save($receipt);
     }
 
+    /**
+     * @param ReceiptReportRequest $request
+     * @return \App\Domain\Resouce\ReceiptResource
+     * @throws \App\Domain\Exceptions\MoneyException
+     * @throws \App\Domain\Exceptions\StatusException
+     */
     public function getReceiptReport(ReceiptReportRequest $request)
     {
-        return $this->findReceiptById($request->getReceiptId());
+        $mapper = new ReceiptToResourceMapper();
+
+        $receipt = $this->findReceiptById($request->getReceiptId());
+        return $mapper->map($receipt);
     }
 
 }

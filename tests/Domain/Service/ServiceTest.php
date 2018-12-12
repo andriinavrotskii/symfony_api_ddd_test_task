@@ -2,6 +2,7 @@
 
 namespace App\Tests\Domain\Service;
 
+use App\Domain\DataMapper\ReceiptToResourceMapper;
 use App\Domain\Entity\ProductInterface;
 use App\Domain\Entity\ReceiptInterface;
 use App\Domain\Factory\ProductFactory;
@@ -13,11 +14,16 @@ use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\FinishReceiptRequest;
 use App\Domain\Request\ProductsListRequest;
 use App\Domain\Request\ReceiptLastProductAmountUpdateRequest;
+use App\Domain\Request\ReceiptReportRequest;
 use App\Domain\Service\Service;
 use App\Persistence\Repository\ProductRepository;
 use App\Persistence\Repository\ReceiptRepository;
 use App\Persistence\Repository\SelectedProductRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class ServiceTest extends KernelTestCase
 {
@@ -109,8 +115,9 @@ class ServiceTest extends KernelTestCase
     public function addProductToReceiptPositive()
     {
         $request = new AddProductToReceiptRequest(37, '123', 1);
-
         $this->service->addProductToReceipt($request);
+
+        $this->assertNull(null);
     }
 
     /**
@@ -120,6 +127,8 @@ class ServiceTest extends KernelTestCase
     {
         $request = new ReceiptLastProductAmountUpdateRequest(46, 33);
         $this->service->receiptLastProductAmountUpdate($request);
+
+        $this->assertNull(null);
     }
 
     /**
@@ -129,5 +138,23 @@ class ServiceTest extends KernelTestCase
     {
         $request = new FinishReceiptRequest(46);
         $this->service->finishReceipt($request);
+    }
+
+    /**
+     * @test
+     */
+    public function getReceiptReport()
+    {
+        $request = new ReceiptReportRequest(37);
+        $receipt = $this->service->getReceiptReport($request);
+        $this->assertNotNull($receipt);
+
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $serializedReceipt = $serializer->serialize($receipt, 'json');
+
+        $this->assertJson($serializedReceipt);
     }
 }

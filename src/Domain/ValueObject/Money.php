@@ -63,7 +63,7 @@ class Money
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getValue()
     {
@@ -83,5 +83,29 @@ class Money
         }
 
         return substr_replace($value, self::PERIOD_DELIMITER, -self::PRECISION, 0);
+    }
+
+    /**
+     * @param int $multiplicator
+     * @return Money
+     * @throws MoneyException
+     */
+    public function multiplicateOn(int $multiplicator)
+    {
+        return new self(
+            $this->value * $multiplicator
+        );
+    }
+
+    /**
+     * @param Money $money
+     * @return Money
+     * @throws MoneyException
+     */
+    public function increaseBy(Money $money)
+    {
+        return new self(
+            $this->value + $money->getValue()
+        );
     }
 }
