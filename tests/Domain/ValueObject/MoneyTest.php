@@ -27,5 +27,7 @@ class MoneyTest extends TestCase
         $this->assertSame('0.99', (string) new Money('0.99'));
         $this->assertSame('9.99', (string) new Money('9.99'));
         $this->assertSame('9999.99', (string) new Money('9999.99'));
+
+        $this->assertEquals(8888, (new Money('88.88'))->getValue());
     }
 }
