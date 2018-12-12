@@ -210,7 +210,7 @@ class Service
 
     /**
      * @param ReceiptReportRequest $request
-     * @return \App\Domain\Resouce\ReceiptResource
+     * @return \App\Domain\Resource\ReceiptResource
      * @throws \App\Domain\Exceptions\MoneyException
      * @throws \App\Domain\Exceptions\StatusException
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Resouce;
+namespace App\Domain\Resource;
 
 class SelectedProductResource
 {

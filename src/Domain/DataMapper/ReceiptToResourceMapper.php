@@ -5,8 +5,8 @@ namespace App\Domain\DataMapper;
 use App\Domain\Entity\ReceiptInterface;
 use App\Domain\Entity\SelectedProductInterface;
 use App\Domain\Exceptions\StatusException;
-use App\Domain\Resouce\ReceiptResource;
-use App\Domain\Resouce\SelectedProductResource;
+use App\Domain\Resource\ReceiptResource;
+use App\Domain\Resource\SelectedProductResource;
 use App\Domain\ValueObject\Money;
 use Doctrine\Common\Collections\Collection;
 
