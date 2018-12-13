@@ -2,7 +2,7 @@
 
 namespace App\Domain\Request;
 
-class ReceiptLastProductAmountUpdateRequest
+class ReceiptLastProductAmountUpdateRequest implements RequestInterface
 {
     /** @var integer */
     private $receiptId;

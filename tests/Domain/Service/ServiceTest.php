@@ -123,6 +123,17 @@ class ServiceTest extends KernelTestCase
     /**
      * @test
      */
+    public function addProductToReceiptNegative()
+    {
+        $request = new AddProductToReceiptRequest('asdasdd', 123123, 0);
+        $this->service->addProductToReceipt($request);
+
+        $this->assertNull(null);
+    }
+
+    /**
+     * @test
+     */
     public function receiptLastProductAmountUpdate()
     {
         $request = new ReceiptLastProductAmountUpdateRequest(46, 33);

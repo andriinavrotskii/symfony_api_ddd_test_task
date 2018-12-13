@@ -2,18 +2,36 @@
 
 namespace App\Domain\Request;
 
-class CreateProductRequest
+use Symfony\Component\Validator\Constraints as Assert;
+
+class CreateProductRequest implements RequestInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Provide Barcode")
+     * @Assert\Type(type="string", message="Barcode must be a string")
+     */
     protected $barcode;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Provide Name")
+     * @Assert\Type(type="string", message="Name must be a string")
+     */
     protected $name;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Provide Cost")
+     * @Assert\Regex(pattern="\d{1,10}\.\d{2}", message="Cost in wrong format")
+     */
     protected $cost;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Provide Vat")
+     * @Assert\Regex(pattern="\d", message="Vat in wrong format")
+     */
     protected $vat;
 
     /**

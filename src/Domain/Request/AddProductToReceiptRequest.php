@@ -2,24 +2,40 @@
 
 namespace App\Domain\Request;
 
-class AddProductToReceiptRequest
+use Symfony\Component\Validator\Constraints as Assert;
+
+class AddProductToReceiptRequest implements RequestInterface
 {
-    /** @var integer */
+    /**
+     * @var int
+     * @Assert\NotBlank(message="Provide receipt id")
+     * @Assert\Type(type="integer", message="Receipt id must be an integer")
+     * @Assert\GreaterThan(value="0", message="Receipt id is greater than zero")
+     */
     private $receiptId;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Provide Barcode")
+     * @Assert\Type(type="string", message="Barcode must be a string")
+     */
     private $barcode;
 
-    /** @var int|null */
+    /**
+     * @var int
+     * @Assert\NotBlank(message="Provide amount of Product")
+     * @Assert\Type(type="integer", message="Amount of Product must be an integer")
+     * @Assert\GreaterThan(value="0", message="Amount of Product must be is greater than zero")
+     */
     private $amount;
 
     /**
      * AddProductToReceiptRequest constructor.
-     * @param int $receiptId
-     * @param string $barcode
-     * @param int|null $amount
+     * @param $receiptId
+     * @param $barcode
+     * @param $amount
      */
-    public function __construct(int $receiptId, string $barcode, ?int $amount)
+    public function __construct($receiptId, $barcode, $amount)
     {
         $this->receiptId = $receiptId;
         $this->barcode = $barcode;
@@ -43,9 +59,9 @@ class AddProductToReceiptRequest
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getAmount(): ?int
+    public function getAmount(): int
     {
         return $this->amount;
     }

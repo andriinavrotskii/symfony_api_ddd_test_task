@@ -2,7 +2,7 @@
 
 namespace App\Domain\Request;
 
-class ProductsListRequest
+class ProductsListRequest implements RequestInterface
 {
     /** @var array|null */
     private $orderBy;

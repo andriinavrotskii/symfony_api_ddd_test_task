@@ -2,8 +2,15 @@
 
 namespace App\Domain\Request;
 
-class BarcodeRequest
+use Symfony\Component\Validator\Constraints as Assert;
+
+class BarcodeRequest implements RequestInterface
 {
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Provide Barcode")
+     * @Assert\Type(type="string", message="Barcode must be a string")
+     */
     private $barcode;
 
     /**
