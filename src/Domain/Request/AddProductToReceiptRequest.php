@@ -10,7 +10,7 @@ class AddProductToReceiptRequest implements RequestInterface
      * @var int
      * @Assert\NotBlank(message="Provide receipt id")
      * @Assert\Type(type="integer", message="Receipt id must be an integer")
-     * @Assert\GreaterThan(value="0", message="Receipt id is greater than zero")
+     * @Assert\GreaterThan(value="0", message="Receipt id should be greater than zero")
      */
     private $receiptId;
 

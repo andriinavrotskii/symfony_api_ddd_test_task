@@ -2,18 +2,16 @@
 
 namespace App\Tests\Domain\Request;
 
-use App\Domain\Exceptions\ValidationException;
-use App\Infrastructure\Factory\AddProductToReceiptRequestFactory;
-use Doctrine\Common\Annotations\AnnotationRegistry;
+use App\Domain\Request\BarcodeRequest;
+use App\Infrastructure\Factory\RequestFactory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RequestTest extends KernelTestCase
 {
-
-    private $validator;
+    /** @var RequestFactory */
+    private $factory;
 
     public function setUp()
     {
@@ -21,22 +19,30 @@ class RequestTest extends KernelTestCase
         class_exists(Assert\Type::class);
         class_exists(Assert\GreaterThan::class);
 
-        $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+        $validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+        $this->factory = new RequestFactory($validator);
     }
 
     /**
      * @test
-     *
+     * @expectedException \App\Domain\Exceptions\ValidationException
      */
-    public function addProductToReceiptRequest()
+    public function addProductToReceiptRequestNegative()
     {
+        $this->factory->createAddProductToReceiptRequest(0, 4234234, 0);
+    }
 
-        $factory = new AddProductToReceiptRequestFactory($this->validator);
-        try {
-            $request = $factory->create(0, 4234234, 0);
-            var_dump($request);
-        } catch (ValidationException $exception) {
-            var_dump($exception->getMessage());
-        }
+    /**
+     * @test
+     */
+    public function addBarcodeRequestPositive()
+    {
+        $barcode = 'asdasddasdasd';
+
+        /** @var BarcodeRequest $request */
+        $request = $this->factory->createBarcodeRequest($barcode);
+
+        $this->assertInstanceOf(BarcodeRequest::class, $request);
+        $this->assertSame($barcode, $request->getBarcode());
     }
 }

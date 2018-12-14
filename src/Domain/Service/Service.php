@@ -14,12 +14,11 @@ use App\Domain\Repository\ProductRepositoryInterface;
 use App\Domain\Repository\ReceiptRepositoryInterface;
 use App\Domain\Repository\SelectedProductRepositoryInterface;
 use App\Domain\Request\AddProductToReceiptRequest;
-use App\Domain\Request\FinishReceiptRequest;
 use App\Domain\Request\ReceiptLastProductAmountUpdateRequest;
 use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\BarcodeRequest;
 use App\Domain\Request\ProductsListRequest;
-use App\Domain\Request\ReceiptReportRequest;
+use App\Domain\Request\ReceiptRequest;
 
 class Service
 {
@@ -201,11 +200,11 @@ class Service
     }
 
     /**
-     * @param FinishReceiptRequest $request
+     * @param ReceiptRequest $request
      * @throws ServiceException
      * @throws \App\Domain\Exceptions\StatusException
      */
-    public function finishReceipt(FinishReceiptRequest $request)
+    public function finishReceipt(ReceiptRequest $request)
     {
         $receipt = $this->findReceiptById($request->getReceiptId());
         $this->checkIsRecetipOpen($receipt);
@@ -215,12 +214,12 @@ class Service
     }
 
     /**
-     * @param ReceiptReportRequest $request
+     * @param ReceiptRequest $request
      * @return \App\Domain\Resource\ReceiptResource
      * @throws \App\Domain\Exceptions\MoneyException
      * @throws \App\Domain\Exceptions\StatusException
      */
-    public function getReceiptReport(ReceiptReportRequest $request)
+    public function getReceiptReport(ReceiptRequest $request)
     {
         $mapper = new ReceiptToResourceMapper();
 

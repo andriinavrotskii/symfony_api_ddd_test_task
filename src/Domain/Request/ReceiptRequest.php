@@ -4,7 +4,7 @@ namespace App\Domain\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ReceiptLastProductAmountUpdateRequest implements RequestInterface
+class ReceiptRequest implements RequestInterface
 {
     /**
      * @var int
@@ -15,21 +15,12 @@ class ReceiptLastProductAmountUpdateRequest implements RequestInterface
     private $receiptId;
 
     /**
-     * @var int
-     * @Assert\NotBlank(message="Provide Amount")
-     * @Assert\Type(type="integer", message="Amount must be an integer")
-     */
-    private $amount;
-
-    /**
-     * ReceiptLastProductAmountUpdateRequest constructor.
+     * FinishReceiptRequest constructor.
      * @param $receiptId
-     * @param $amount
      */
-    public function __construct($receiptId, $amount)
+    public function __construct($receiptId)
     {
         $this->receiptId = $receiptId;
-        $this->amount = $amount;
     }
 
     /**
@@ -38,13 +29,5 @@ class ReceiptLastProductAmountUpdateRequest implements RequestInterface
     public function getReceiptId(): int
     {
         return (int) $this->receiptId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAmount(): int
-    {
-        return (int) $this->amount;
     }
 }

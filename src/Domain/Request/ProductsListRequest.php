@@ -2,24 +2,35 @@
 
 namespace App\Domain\Request;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class ProductsListRequest implements RequestInterface
 {
-    /** @var array|null */
+    /**
+     * @var array|null
+     */
     private $orderBy;
 
-    /** @var integer|null */
+    /**
+     * @var int|null
+     * @Assert\Type(type="integer", message="Limit must be an integer")
+     * @Assert\GreaterThan(value="0", message="Limit id should be greater than zero")
+     */
     private $limit;
 
-    /** @var integer|null */
+    /**
+     * @var int|null
+     * @Assert\Type(type="integer", message="Offset must be an integer")
+     */
     private $offset;
 
     /**
      * ProductsListRequest constructor.
      * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
+     * @param null $limit
+     * @param null $offset
      */
-    public function __construct(?array $orderBy, ?int $limit, ?int $offset)
+    public function __construct(array $orderBy = null, $limit = null, $offset = null)
     {
         $this->orderBy = $orderBy;
         $this->limit = $limit;
@@ -39,7 +50,7 @@ class ProductsListRequest implements RequestInterface
      */
     public function getLimit(): ?int
     {
-        return $this->limit;
+        return (int) $this->limit;
     }
 
     /**
@@ -47,6 +58,6 @@ class ProductsListRequest implements RequestInterface
      */
     public function getOffset(): ?int
     {
-        return $this->offset;
+        return (int) $this->offset;
     }
 }

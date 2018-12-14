@@ -14,14 +14,13 @@ use App\Domain\Request\CreateProductRequest;
 use App\Domain\Request\FinishReceiptRequest;
 use App\Domain\Request\ProductsListRequest;
 use App\Domain\Request\ReceiptLastProductAmountUpdateRequest;
-use App\Domain\Request\ReceiptReportRequest;
+use App\Domain\Request\ReceiptRequest;
 use App\Domain\Service\Service;
 use App\Persistence\Repository\ProductRepository;
 use App\Persistence\Repository\ReceiptRepository;
 use App\Persistence\Repository\SelectedProductRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -156,7 +155,7 @@ class ServiceTest extends KernelTestCase
      */
     public function getReceiptReport()
     {
-        $request = new ReceiptReportRequest(37);
+        $request = new ReceiptRequest(37);
         $receipt = $this->service->getReceiptReport($request);
         $this->assertNotNull($receipt);
 

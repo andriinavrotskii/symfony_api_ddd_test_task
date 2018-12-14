@@ -36,12 +36,12 @@ class CreateProductRequest implements RequestInterface
 
     /**
      * CreateProductRequest constructor.
-     * @param string $barcode
-     * @param string $name
-     * @param string $cost
-     * @param string $vat
+     * @param $barcode
+     * @param $name
+     * @param $cost
+     * @param $vat
      */
-    public function __construct(string $barcode, string $name, string $cost, string $vat)
+    public function __construct($barcode, $name, $cost, $vat)
     {
         $this->barcode = $barcode;
         $this->name = $name;
