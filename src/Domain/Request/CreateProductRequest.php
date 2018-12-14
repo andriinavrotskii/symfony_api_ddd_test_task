@@ -23,14 +23,14 @@ class CreateProductRequest implements RequestInterface
     /**
      * @var string
      * @Assert\NotBlank(message="Provide Cost")
-     * @Assert\Regex(pattern="\d{1,10}\.\d{2}", message="Cost in wrong format")
+     * @Assert\Regex(pattern="/\d{1,10}\.\d{2}/", message="Cost in wrong format")
      */
     protected $cost;
 
     /**
      * @var string
      * @Assert\NotBlank(message="Provide Vat")
-     * @Assert\Regex(pattern="\d", message="Vat in wrong format")
+     * @Assert\Regex(pattern="/\d/", message="Vat in wrong format")
      */
     protected $vat;
 

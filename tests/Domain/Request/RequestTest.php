@@ -18,6 +18,7 @@ class RequestTest extends KernelTestCase
         class_exists(Assert\NotBlank::class);
         class_exists(Assert\Type::class);
         class_exists(Assert\GreaterThan::class);
+        class_exists(Assert\Regex::class);
 
         $validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
         $this->factory = new RequestFactory($validator);

@@ -81,9 +81,11 @@ class Service
      */
     public function createProduct(CreateProductRequest $request)
     {
-        return $this->productRepository->save(
-            $this->productFactory->createProduct($request)
-        );
+        $product = $this->productFactory->createProduct($request);
+        $this->productRepository->persist($product);
+        $this->productRepository->flush();
+
+        return $product;
     }
 
     /**
@@ -115,7 +117,8 @@ class Service
     public function createReceipt()
     {
         $receipt = $this->receiptFactory->create();
-        $this->receiptRepository->save($receipt);
+        $this->receiptRepository->persist($receipt);
+        $this->receiptRepository->flush();
 
         return $receipt;
     }
@@ -142,7 +145,8 @@ class Service
             $selectedProduct->setAmount($request->getAmount());
         }
 
-        $this->receiptRepository->save($receipt);
+        $this->receiptRepository->persist($receipt);
+        $this->receiptRepository->flush();
     }
 
     /**
@@ -157,7 +161,8 @@ class Service
         $selectedProduct = $receipt->getSelectedProducts()->last();
         $selectedProduct->setAmount($request->getAmount());
 
-        $this->receiptRepository->save($receipt);
+        $this->receiptRepository->persist($receipt);
+        $this->receiptRepository->flush();
     }
 
     /**
@@ -210,7 +215,8 @@ class Service
         $this->checkIsRecetipOpen($receipt);
         $receipt->setStatus(Receipt::STATUS_FINISHED);
 
-        $this->receiptRepository->save($receipt);
+        $this->receiptRepository->persist($receipt);
+        $this->receiptRepository->flush();
     }
 
     /**

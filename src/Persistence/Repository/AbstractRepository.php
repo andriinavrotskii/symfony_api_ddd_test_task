@@ -38,10 +38,13 @@ abstract class AbstractRepository implements \App\Domain\Repository\AbstractRepo
         return $this->em->getRepository(static::ENTITY)->findOneBy($criteria);
     }
 
-    public function save($entity)
+    public function persist($entity)
     {
         $this->em->persist($entity);
+    }
+
+    public function flush()
+    {
         $this->em->flush();
-        return $entity;
     }
 }

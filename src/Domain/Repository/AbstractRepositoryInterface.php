@@ -11,5 +11,7 @@ interface AbstractRepositoryInterface
 
     public function findOneBy(array $criteria);
 
-    public function save($entity);
+    public function persist($entity);
+
+    public function flush();
 }

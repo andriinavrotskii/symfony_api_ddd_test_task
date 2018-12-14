@@ -7,6 +7,7 @@ use App\Domain\Entity\Product;
 use App\Domain\Entity\Receipt;
 use App\Domain\Factory\ProductFactory;
 use App\Domain\Factory\ReceiptFactory;
+use App\Domain\Factory\RequestFactoryInterface;
 use App\Domain\Factory\SelectedProductFactory;
 use App\Domain\Request\AddProductToReceiptRequest;
 use App\Domain\Request\BarcodeRequest;
@@ -16,6 +17,7 @@ use App\Domain\Request\ProductsListRequest;
 use App\Domain\Request\ReceiptLastProductAmountUpdateRequest;
 use App\Domain\Request\ReceiptRequest;
 use App\Domain\Service\Service;
+use App\Infrastructure\Factory\RequestFactory;
 use App\Persistence\Repository\ProductRepository;
 use App\Persistence\Repository\ReceiptRepository;
 use App\Persistence\Repository\SelectedProductRepository;
@@ -23,11 +25,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ServiceTest extends KernelTestCase
 {
     /** @var Service */
     private $service;
+
+    /** @var RequestFactoryInterface */
+    private $requestFactory;
 
     public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
     {
@@ -46,6 +53,14 @@ class ServiceTest extends KernelTestCase
             new ReceiptFactory(),
             new SelectedProductFactory()
         );
+
+        class_exists(Assert\NotBlank::class);
+        class_exists(Assert\Type::class);
+        class_exists(Assert\GreaterThan::class);
+        class_exists(Assert\Regex::class);
+
+        $validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+        $this->requestFactory = new RequestFactory($validator);
     }
 
     /**
@@ -63,7 +78,7 @@ class ServiceTest extends KernelTestCase
     public function createProductTest()
     {
         $barcode = (string) rand(1, 1000000);
-        $productRequest = new CreateProductRequest(
+        $productRequest = $this->requestFactory->createCreateProductRequest(
             $barcode,
             'product name',
             '88.88',
@@ -73,7 +88,7 @@ class ServiceTest extends KernelTestCase
         $product = $this->service->createProduct($productRequest);
 
         $returnedProduct = $this->service->getProductByBarcode(
-            new BarcodeRequest($barcode)
+            $this->requestFactory->createBarcodeRequest($barcode)
         );
 
         $this->assertEquals(
@@ -87,7 +102,7 @@ class ServiceTest extends KernelTestCase
      */
     public function getProductsList()
     {
-        $request = new ProductsListRequest(['barcode' => 'desc'], 2, null);
+        $request = $this->requestFactory->createProductsListRequest(['barcode' => 'desc'], 2, null);
         /** @var Product[] $list */
         $list = $this->service->getProductsList($request);
 
@@ -113,18 +128,7 @@ class ServiceTest extends KernelTestCase
      */
     public function addProductToReceiptPositive()
     {
-        $request = new AddProductToReceiptRequest(37, '123', 1);
-        $this->service->addProductToReceipt($request);
-
-        $this->assertNull(null);
-    }
-
-    /**
-     * @test
-     */
-    public function addProductToReceiptNegative()
-    {
-        $request = new AddProductToReceiptRequest('asdasdd', 123123, 0);
+        $request = $this->requestFactory->createAddProductToReceiptRequest(37, '123', 1);
         $this->service->addProductToReceipt($request);
 
         $this->assertNull(null);
@@ -135,7 +139,7 @@ class ServiceTest extends KernelTestCase
      */
     public function receiptLastProductAmountUpdate()
     {
-        $request = new ReceiptLastProductAmountUpdateRequest(46, 33);
+        $request = $this->requestFactory->createReceiptLastProductAmountUpdateRequest(46, 33);
         $this->service->receiptLastProductAmountUpdate($request);
 
         $this->assertNull(null);
@@ -146,7 +150,7 @@ class ServiceTest extends KernelTestCase
      */
     public function finishReceipt()
     {
-        $request = new FinishReceiptRequest(46);
+        $request = $this->requestFactory->createReceiptRequest(46);
         $this->service->finishReceipt($request);
     }
 
@@ -155,7 +159,7 @@ class ServiceTest extends KernelTestCase
      */
     public function getReceiptReport()
     {
-        $request = new ReceiptRequest(37);
+        $request = $this->requestFactory->createReceiptRequest(37);
         $receipt = $this->service->getReceiptReport($request);
         $this->assertNotNull($receipt);
 
